@@ -1,0 +1,19 @@
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
+language: ruby
+rvm::
+  - 2.3
+before_install:
+  - sudo add-apt-repository -y ppa:staticfloat/juliareleases
+  - sudo add-apt-repository -y ppa:staticfloat/julia-deps
+  - sudo apt-get update
+  - sudo apt-get install -y julia
+  - julia -e 'Pkg.add("MsgPack")'
+  - julia -e 'Pkg.add("MsgPackRpcServer")'
+script:
+  - cd test && julia runtests.jl
+notifications:
+  email: false
+# uncomment the following lines to override the default test script
+#script:
+#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+#  - julia -e 'Pkg.clone(pwd()); Pkg.build("MsgPackRpcServer"); Pkg.test("MsgPackRpcServer"; coverage=true)'
